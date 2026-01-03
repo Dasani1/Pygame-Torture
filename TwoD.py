@@ -107,9 +107,10 @@ m2 = Connect(x2,x3)
 m3 = Connect(x3,x4)
 m4 = Connect(x4,x1)
 
+Square = [x1,x2,x3,x4]
+Lines = [m1,m2,m3,m4]
+
 test = Connect(x1,x3)
-
-
 
 graph = Grid()
  
@@ -132,19 +133,13 @@ while running:
 
     sized = pygame.display.get_window_size()
     graph.draw()
-    x1.update()
-    x1.draw()
-    x2.update()
-    x2.draw()
-    x3.update()
-    x3.draw()
-    x4.update()
-    x4.draw()
-
-    m1.draw()
-    m2.draw()
-    m3.draw()
-    m4.draw()
+    for x in Square:
+        x.update()
+        x.draw()
+    
+    for m in Lines:
+        m.draw()
+#Using a for loop and list to declutter the while loop section
     
  
     # flip() updates the screen to make our changes visible
