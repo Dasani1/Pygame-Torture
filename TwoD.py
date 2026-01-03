@@ -98,7 +98,7 @@ class Grid:
 
 sized = pygame.display.get_window_size()
 
-x1 = Point(-2,-2)
+x1 = Point(-2,-2) #Setting up everything
 x2 = Point(-2,2)
 x3 = Point(2,2)
 x4 = Point(2,-2)
