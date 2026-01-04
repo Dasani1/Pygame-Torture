@@ -125,8 +125,8 @@ while running:
                 pass
         elif event.type == pygame.MOUSEBUTTONUP:
             pass
-        if event.type == pygame.KEYUP:
-            if event.key == "m" or "M":
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_m:
                 show = not show 
 
      
