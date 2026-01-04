@@ -113,6 +113,7 @@ Lines = [m1,m2,m3,m4]
 test = Connect(x1,x3)
 
 graph = Grid()
+show = False
  
 running = True
 while running:
@@ -124,6 +125,10 @@ while running:
                 pass
         elif event.type == pygame.MOUSEBUTTONUP:
             pass
+        if event.type == pygame.KEYUP:
+            if event.key == "m" or "M":
+                show = not show 
+
      
     #clear the screen
     screen.fill(BLACK)
@@ -132,7 +137,8 @@ while running:
     # YOUR CODE HERE
 
     sized = pygame.display.get_window_size()
-    graph.draw()
+    if show:
+        graph.draw()
     for x in Square:
         x.update()
         x.draw()
