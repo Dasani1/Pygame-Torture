@@ -65,15 +65,29 @@ class Connect: #Holy I love this class because it's entirely dependent on point 
     def draw(self):
         pygame.draw.line(screen,RED,(self.p1.getCoord()),(self.p2.getCoord()))
 
-class Drag:
+class Drag: #Idk if I'll ever do this class
     pass
+
+class Move: #This'll be more for later on, but I had a shower revelation so y'know yeah. 
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+
+    def move(self,distance):
+        self.x += distance[0]
+        self.y += distance[1]
+
+    def getDistance(self):
+        return (self.x,self.y)
 
 class Grid:
     def __init__(self): #maybe add a format style (later on)
         self.grid = grid
         self.type = "work on later"
-    def draw(self): #Standard drawing
+    def draw(self,moved): #Standard drawing
         # If statement to determine how to ensure the graph is always centered at the very middle of the screen
+        xm = moved[0]
+        ym = moved[1]
         if sized[0] > sized[1]: # x is bigger than y
             smol = sized[1]
             big = sized[0]
@@ -81,9 +95,9 @@ class Grid:
             adj = smol/(grid*2) #Trying to simplify readability
             pygame.draw.circle(screen,WHITE,(big/2,smol/2),5) #origin
             for x in range(grid*2+1):
-                pygame.draw.line(screen,WHITE,(0,x * adj),(sized[0],x * adj))
+                pygame.draw.line(screen,WHITE,(0 + xm,x * adj),(sized[0],x * adj))
             for y in range(grid*2+1):
-                pygame.draw.line(screen,WHITE,(y * adj + diff/2,0),(y * adj + diff/2,sized[1]))
+                pygame.draw.line(screen,WHITE,(y * adj + diff/2,0 + ym),(y * adj + diff/2,sized[1]))
         else: #vice versa
             smol = sized[0]
             big = sized[1]
@@ -91,14 +105,15 @@ class Grid:
             adj = smol/(grid*2) #same here
             pygame.draw.circle(screen,WHITE,(smol/2,big/2),5) #origin
             for x in range(grid*2):
-                pygame.draw.line(screen,WHITE,(0, x* adj + diff/2),(sized[0],x * adj + diff/2))
+                pygame.draw.line(screen,WHITE,(0 + xm, x* adj + diff/2),(sized[0],x * adj + diff/2))
             for y in range(grid*2):
-                pygame.draw.line(screen,WHITE,(y* adj,0),(y*adj,sized[1]))
+                pygame.draw.line(screen,WHITE,(y* adj,0 + ym),(y*adj,sized[1]))
+
     def stay(self): #Ensures it remembers its spot when moved
         pass
 
 sized = pygame.display.get_window_size()
-
+mv = Move()
 x1 = Point(-2,-2) #Setting up everything
 x2 = Point(-2,2)
 x3 = Point(2,2)
@@ -126,9 +141,18 @@ while running:
                 pass
         elif event.type == pygame.MOUSEBUTTONUP:
             pass
-        elif event.type == pygame.KEYUP:
+        if event.type == pygame.KEYUP:
             if event.key == pygame.K_m:
                 show = not show 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                mv.move((0,sized[1]/10))
+            elif event.key == pygame.K_a:
+                mv.move((-sized[0]/10,0))
+            elif event.key == pygame.K_s:
+                mv.move((0,-sized[1]/10))
+            elif event.key == pygame.K_d:
+                mv.move((sized[0]/10,0))
 
      
     #clear the screen
@@ -139,7 +163,7 @@ while running:
 
     sized = pygame.display.get_window_size()
     if show:
-        graph.draw()
+        graph.draw(mv.getDistance())
     for x in Square:
         x.update()
         x.draw()

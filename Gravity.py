@@ -121,7 +121,7 @@ class Text:
     
 # clock is used to set a max fps
 clock = pygame.time.Clock()
-block = Box(300,500,90,0,0,1) #position xy, bounciness(later), xy speed and gravity
+block = Box(300,500,100,0,0,1) #position xy, bounciness(later), xy speed and gravity
 wall = Barrier()
 words = Text()
  
