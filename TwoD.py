@@ -33,8 +33,10 @@ class Point:
     def __init__(self,x,y): #Standard constructor
         self.a = x #yo this is kinda stupid
         self.b = y
-        self.x = (sized[0]/2) + (x*(sized[0]/grid/2)) #divide by 2 because we are doing cartesian for some reason
-        self.y = (sized[1]/2) - (y*(sized[1]/grid/2)) #testing
+        x = (sized[0]/2) + (x*(sized[0]/grid/2)) #divide by 2 because we are doing cartesian for some reason
+        y = (sized[1]/2) - (y*(sized[1]/grid/2)) 
+        self.x = x #Simplifying readability
+        self.y = y
         self.size = 5 #Work on this later 
     def draw(self): #Standard drawing the point
         pygame.draw.circle(screen,WHITE,(self.x,self.y),self.size)
@@ -53,18 +55,15 @@ class Point:
             self.y = (smol/2) - (self.b*(smol/grid/2)) + diff/2
     def stay(self): #Ensuring it remembers its spot when moved
         pass
-    def getCoord(self):
+    def getCoord(self): #Simple getter method
         return (self.x,self.y)
 
-class Connect:
+class Connect: #Holy I love this class because it's entirely dependent on point so I never have to work on this (I may shoot myself in the foot later but not now :D)
     def __init__(self,p1,p2):
         self.p1 = p1
         self.p2 = p2
-
     def draw(self):
         pygame.draw.line(screen,RED,(self.p1.getCoord()),(self.p2.getCoord()))
-    def stay(self):
-        pass
 
 class Drag:
     pass
@@ -79,20 +78,22 @@ class Grid:
             smol = sized[1]
             big = sized[0]
             diff = big-smol
+            adj = smol/(grid*2) #Trying to simplify readability
             pygame.draw.circle(screen,WHITE,(big/2,smol/2),5) #origin
             for x in range(grid*2+1):
-                pygame.draw.line(screen,WHITE,(0,x*(smol/(grid*2))),(sized[0],x*(smol/(grid*2))))
+                pygame.draw.line(screen,WHITE,(0,x * adj),(sized[0],x * adj))
             for y in range(grid*2+1):
-                pygame.draw.line(screen,WHITE,(y*(smol/(grid*2))+diff/2,0),(y*(smol/(grid*2))+diff/2,sized[1]))
+                pygame.draw.line(screen,WHITE,(y * adj + diff/2,0),(y * adj + diff/2,sized[1]))
         else: #vice versa
             smol = sized[0]
             big = sized[1]
             diff = big-smol
+            adj = smol/(grid*2) #same here
             pygame.draw.circle(screen,WHITE,(smol/2,big/2),5) #origin
             for x in range(grid*2):
-                pygame.draw.line(screen,WHITE,(0,x*(smol/(grid*2))+diff/2),(sized[0],x*(smol/(grid*2))+diff/2))
+                pygame.draw.line(screen,WHITE,(0, x* adj + diff/2),(sized[0],x * adj + diff/2))
             for y in range(grid*2):
-                pygame.draw.line(screen,WHITE,(y*(smol/(grid*2)),0),(y*(smol/(grid*2)),sized[1]))
+                pygame.draw.line(screen,WHITE,(y* adj,0),(y*adj,sized[1]))
     def stay(self): #Ensures it remembers its spot when moved
         pass
 
