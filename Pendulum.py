@@ -18,48 +18,55 @@ clock = pygame.time.Clock()
 
 class Box:
 
-    def __init__(self,x,y):
+    def __init__(self,x,y,r):
         self._dimension = 50
         self.velx = 0
-        self.vely = 0
+        self.vely = 1
         self.xpos = x
         self.ypos = y
         self.force = 1
-        self.direction = True
-        self.radius = 5
-        self.locked = 250
-        self.origin = x
+        self.radius = r
+        self.originx = x
+        self.originy = y
+        self.direction = True #true = up and vice versa
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
     def draw(self):
         pygame.draw.rect(screen, RED, self.hitbox)
 
     def move(self):
-        self.xpos += self.velx
+        #Change the equation to y = -sqrt(radius - x^2)
+        #rewrite for x, 
+        #Need equation Et = 1/2mv^2 + mgh (I wonder what g would be...)
+        #Rewrite as Et = m(1/2mv^2 + gh)
+        # max = self.radius**0.5
+        # min = -max
+        # self.velx = -(self.radius-self.xpos**2)**0.5
+        #if y is at origin, 
+        # if self.ypos <= (self.originy+self.radius) and self.direction: #My dumbass can't figure out how to bound it so it moves up at origin but moves down at above origin
+        #     self.ypos += self.vely
+        # elif self.ypos > (self.originy):
+        #     self.ypos -= self.vely
+        # self.velx = -(self.radius-(self.vely)**2)**0.5
+        # self.velx = (self.radius - self.vely**2)**0.5
         self.ypos += self.vely
-        if self.xpos <= 0:
-            self.xpos = 0
-        if self.xpos >= screen_size[0]:
-            self.xpos = screen_size[0]-50
+        self.xpos += self.velx
+        
+
+        
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
     def gravity(self):
-        ground = (screen_size[1]-(self._dimension/2))
-        if self.ypos >= ground:
+        rope = (self.originy + self.radius)
+        if self.ypos >= rope:
             self.vely *= -1
             self.direction = not self.direction
         else:
-            self.vely += self.force
-
-        if self.ypos <= ground/2:
-            self.velx += self.force/2
-        elif self.ypos >= ground/2:
-            self.velx -= self.force/2
+            if self.vely != abs(1):
+                self.vely += self.force
 
 
-    def speed(self):
-        pass
-block = Box(200,0)
+block = Box(375,375,200)
 
 running = True
 while running:
