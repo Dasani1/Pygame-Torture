@@ -20,8 +20,8 @@ class Box:
 
     def __init__(self,x,y,r):
         self._dimension = 50
-        self.velx = 0
-        self.vely = 1
+        self.velx = 1
+        self.vely = 0
         self.xpos = x
         self.ypos = y
         self.force = 1
@@ -47,25 +47,25 @@ class Box:
         
 
         #self.velx = (self.adj**2 - (self.track))**0.5
-        
-        self.xpos = (self.radius**2 - (self.track)**2)**0.5
+        #what if... we make x the one static, and y the one getitng manipulated, we could then do the equation properly.
+        #self.velx = (self.adj**2 - (self.track)**2)**0.5
+        self.vely = (self.adj**2 - self.track**2)**0.5
+        print(self.vely)
         self.ypos += self.vely
-        # if self.direction:
-        #     self.xpos += self.velx
-        # else:
-        #     self.xpos -= self.velx
-        # print(round(self.xpos/100),round(self.ypos/100,2))
+        self.xpos += self.velx
+        
+         
         
 
         
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
     def gravity(self): #I'll make it work like real gravity once I figure this x velocity out 
-        rope = (self.originy + self.radius)
-        if (self.ypos >= rope and self.direction) or (self.ypos <= self.originy and not self.direction):
-            self.vely *= -1 
+        rope = (self.originx + self.radius)
+        if (self.xpos >= rope and self.direction) or (self.xpos <= self.originx-self.radius and not self.direction):
+            self.velx *= -1 
             self.direction = not self.direction
-        self.track += (self.vely) 
+        self.track += (self.velx/100) 
         self.track = round(self.track,2) #If you don't round it adds like 0.0000001 extra which adds up overtime to create mistakes
       
       
@@ -73,7 +73,7 @@ class Box:
 
 
 
-block = Box(0,0,200)
+block = Box(375,375,200)
 
 running = True
 while running:
