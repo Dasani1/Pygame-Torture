@@ -26,8 +26,10 @@ class Box:
         self.ypos = y
         self.force = 1
         self.radius = r
+        self.adj = r/100
         self.originx = x
         self.originy = y
+        self.track = 0
         self.direction = True #true = up and vice versa
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
@@ -35,7 +37,7 @@ class Box:
         pygame.draw.rect(screen, RED, self.hitbox)
 
     def move(self):
-        #Change the equation to y = -sqrt(radius - x^2)
+        #Change the equation to y = -sqrt(radius**2 - x^2)
         #rewrite for x, 
         #Need equation Et = 1/2mv^2 + mgh (I wonder what g would be...)
         #Rewrite as Et = m(1/2mv^2 + gh)
@@ -48,7 +50,10 @@ class Box:
         # elif self.ypos > (self.originy):
         #     self.ypos -= self.vely
         # self.velx = -(self.radius-(self.vely)**2)**0.5
-        # self.velx = (self.radius - self.vely**2)**0.5
+        
+
+        self.velx = (self.adj**2 - (self.track))**0.5
+        
         self.ypos += self.vely
         self.xpos += self.velx
         
@@ -56,17 +61,16 @@ class Box:
         
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
-    def gravity(self):
+    def gravity(self): #I'll make it work like real gravity once I figure this x velocity out 
         rope = (self.originy + self.radius)
-        if self.ypos >= rope:
-            self.vely *= -1
+        if (self.ypos >= rope and self.direction) or (self.ypos <= self.originy and not self.direction):
+            self.vely *= -1 
             self.direction = not self.direction
-        else:
-            if self.vely != abs(1):
-                self.vely += self.force
+        self.track += self.vely/100
 
 
-block = Box(375,375,200)
+
+block = Box(0,375,200)
 
 running = True
 while running:
