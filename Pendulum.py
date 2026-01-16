@@ -34,7 +34,9 @@ class Box:
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
     def draw(self):
+        pygame.draw.line(screen,WHITE,(self.originx,self.originy),(self.xpos+self._dimension/2,self.ypos+self._dimension/2))
         pygame.draw.rect(screen, RED, self.hitbox)
+        
 
     def move(self):
         #Change the equation to y = -sqrt(radius^2 - x^2)
@@ -49,7 +51,7 @@ class Box:
         #self.velx = (self.adj**2 - (self.track))**0.5
         #what if... we make x the one static, and y the one getitng manipulated, we could then do the equation properly.
         #self.velx = (self.adj**2 - (self.track)**2)**0.5
-        self.ypos = ((self.radius**2 - self.track**2)**0.5)
+        self.ypos = ((self.radius**2 - self.track**2)**0.5) + self.originy #It works technically, gotta linearize though
         print(self.vely)
         if self.direction:
             self.ypos += self.vely
@@ -85,7 +87,7 @@ while running:
             running = False
      
     #clear the screen
-    screen.fill(BLACK)
+    #screen.fill(BLACK)
      
     # draw to the screen
     # YOUR CODE HERE
@@ -97,6 +99,6 @@ while running:
     pygame.display.flip()
      
     # how many updates per second
-    clock.tick(180)
+    clock.tick(600)
  
 pygame.quit()
