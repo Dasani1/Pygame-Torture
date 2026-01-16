@@ -48,13 +48,13 @@ class Box:
 
         #self.velx = (self.adj**2 - (self.track))**0.5
         
-        self.velx = (self.adj**2 - (self.track)**2)**0.5
-        
+        self.xpos = (self.radius**2 - (self.track)**2)**0.5
         self.ypos += self.vely
-        if self.direction:
-            self.xpos += self.velx
-        else:
-            self.xpos -= self.velx
+        # if self.direction:
+        #     self.xpos += self.velx
+        # else:
+        #     self.xpos -= self.velx
+        # print(round(self.xpos/100),round(self.ypos/100,2))
         
 
         
@@ -65,7 +65,7 @@ class Box:
         if (self.ypos >= rope and self.direction) or (self.ypos <= self.originy and not self.direction):
             self.vely *= -1 
             self.direction = not self.direction
-        self.track += (self.vely/100) 
+        self.track += (self.vely) 
         self.track = round(self.track,2) #If you don't round it adds like 0.0000001 extra which adds up overtime to create mistakes
       
       
@@ -73,7 +73,7 @@ class Box:
 
 
 
-block = Box(375,375,200)
+block = Box(0,0,200)
 
 running = True
 while running:
@@ -94,6 +94,6 @@ while running:
     pygame.display.flip()
      
     # how many updates per second
-    clock.tick(30)
+    clock.tick(60)
  
 pygame.quit()
