@@ -37,25 +37,24 @@ class Box:
         pygame.draw.rect(screen, RED, self.hitbox)
 
     def move(self):
-        #Change the equation to y = -sqrt(radius**2 - x^2)
+        #Change the equation to y = -sqrt(radius^2 - x^2)
         #rewrite for x, 
         #Need equation Et = 1/2mv^2 + mgh (I wonder what g would be...)
         #Rewrite as Et = m(1/2mv^2 + gh)
         # max = self.radius**0.5
         # min = -max
-        # self.velx = -(self.radius-self.xpos**2)**0.5
-        #if y is at origin, 
-        # if self.ypos <= (self.originy+self.radius) and self.direction: #My dumbass can't figure out how to bound it so it moves up at origin but moves down at above origin
-        #     self.ypos += self.vely
-        # elif self.ypos > (self.originy):
-        #     self.ypos -= self.vely
-        # self.velx = -(self.radius-(self.vely)**2)**0.5
+    
         
 
-        self.velx = (self.adj**2 - (self.track))**0.5
+        #self.velx = (self.adj**2 - (self.track))**0.5
+        
+        self.velx = (self.adj**2 - (self.track)**2)**0.5
         
         self.ypos += self.vely
-        self.xpos += self.velx
+        if self.direction:
+            self.xpos += self.velx
+        else:
+            self.xpos -= self.velx
         
 
         
@@ -66,11 +65,15 @@ class Box:
         if (self.ypos >= rope and self.direction) or (self.ypos <= self.originy and not self.direction):
             self.vely *= -1 
             self.direction = not self.direction
-        self.track += self.vely/100
+        self.track += (self.vely/100) 
+        self.track = round(self.track,2) #If you don't round it adds like 0.0000001 extra which adds up overtime to create mistakes
+      
+      
+        
 
 
 
-block = Box(0,375,200)
+block = Box(375,375,200)
 
 running = True
 while running:
@@ -91,6 +94,6 @@ while running:
     pygame.display.flip()
      
     # how many updates per second
-    clock.tick(60)
+    clock.tick(30)
  
 pygame.quit()
