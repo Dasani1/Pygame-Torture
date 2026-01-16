@@ -49,9 +49,12 @@ class Box:
         #self.velx = (self.adj**2 - (self.track))**0.5
         #what if... we make x the one static, and y the one getitng manipulated, we could then do the equation properly.
         #self.velx = (self.adj**2 - (self.track)**2)**0.5
-        self.vely = (self.adj**2 - self.track**2)**0.5
+        self.ypos = ((self.radius**2 - self.track**2)**0.5)
         print(self.vely)
-        self.ypos += self.vely
+        if self.direction:
+            self.ypos += self.vely
+        else:
+            self.ypos -= self.vely
         self.xpos += self.velx
         
          
@@ -65,7 +68,7 @@ class Box:
         if (self.xpos >= rope and self.direction) or (self.xpos <= self.originx-self.radius and not self.direction):
             self.velx *= -1 
             self.direction = not self.direction
-        self.track += (self.velx/100) 
+        self.track += (self.velx) 
         self.track = round(self.track,2) #If you don't round it adds like 0.0000001 extra which adds up overtime to create mistakes
       
       
@@ -94,6 +97,6 @@ while running:
     pygame.display.flip()
      
     # how many updates per second
-    clock.tick(60)
+    clock.tick(180)
  
 pygame.quit()
