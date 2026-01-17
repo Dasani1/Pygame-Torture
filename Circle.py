@@ -43,10 +43,10 @@ class Circle():
         else:
             self.y = -(rr - x)**0.5 + self.originy
 
-    def real_math(self): #Method I learned from youtube
+    def real_math(self): #Method I learned from youtube... holy this was so much faster...
         self.angle += 0.1
-        self.x = self.rr * math.sin(self.angle) + self.originx
-        self.y = self.rr * math.cos(self.angle) + self.originy
+        self.x = self.rr * math.cos(self.angle) + self.originx
+        self.y = self.rr * math.sin(self.angle) + self.originy
 
     def move(self):
 
