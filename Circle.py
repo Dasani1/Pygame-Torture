@@ -1,4 +1,5 @@
 import pygame
+import math
  
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -8,7 +9,7 @@ RED = (255, 0, 0)
 pygame.init()
 s = 800
 screen_size = (s, s)
- 
+
 # create a window
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("pygame Test")
@@ -30,6 +31,7 @@ class Circle():
         self.velx = 1
         self.track = 0
         self.dir = True
+        self.angle = 0
 
     def math(self):
         #y^2 + x^2 = r^2
@@ -41,13 +43,16 @@ class Circle():
         else:
             self.y = -(rr - x)**0.5 + self.originy
 
+    def real_math(self): #Method I learned from youtube
+        self.angle += 0.1
+        self.x = self.rr * math.sin(self.angle) + self.originx
+        self.y = self.rr * math.cos(self.angle) + self.originy
+
     def move(self):
 
         if (self.x >= self.originx + self.rr) or (self.x <= self.originx - self.rr):
             self.velx *= -1
             self.dir = not self.dir
-        # if (self.y >= self.originy + self.rr) or (self.y <= self.originy - self.rr*2):
-        #     self.vely *= -1
 
         self.track += self.velx
         self.x += self.velx
@@ -69,13 +74,9 @@ while running:
     #clear the screen
     screen.fill(BLACK)
 
-    Round.math()
-    Round.move()
+    Round.real_math()
+ 
     Round.draw()
-
-     
-    # draw to the screen
-    # YOUR CODE HERE
  
     # flip() updates the screen to make our changes visible
     pygame.display.flip()
