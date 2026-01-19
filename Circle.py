@@ -27,8 +27,8 @@ class Circle():
         self.originy = (s/2)
         self.x = self.originx
         self.y = self.originy + 50
-        self.vely = 1
-        self.velx = 1
+        self.vely = 2
+        self.velx = 2
         self.track = 0
         self.dir = True
         self.angle = 0
@@ -44,7 +44,9 @@ class Circle():
             self.y = -(rr - x)**0.5 + self.originy
 
     def real_math(self): #Method I learned from youtube... holy this was so much faster...
-        self.angle += 0.1
+        speed = 6
+        self.angle += ((speed/180)*math.pi) #Changed it to increasing 1 degree every time cause I like that more
+        
         self.x = self.rr * math.cos(self.angle) + self.originx
         self.y = self.rr * math.sin(self.angle) + self.originy
 
@@ -63,7 +65,8 @@ class Circle():
         pygame.draw.circle(screen,RED,(self.x,self.y),self.r)
 
 
-Round = Circle(20,100)
+Round = Circle(20,300)
+bad = Circle(20,200)
  
 running = True
 while running:
@@ -73,9 +76,10 @@ while running:
      
     #clear the screen
     screen.fill(BLACK)
-
+    bad.math()
     Round.real_math()
- 
+    bad.move()
+    bad.draw()
     Round.draw()
  
     # flip() updates the screen to make our changes visible
