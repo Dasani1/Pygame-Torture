@@ -32,6 +32,8 @@ class Circle():
         self.track = 0
         self.dir = True
         self.angle = 0
+        speed = 1
+        self.maths = ((speed/180)*math.pi) #Changed it to increasing 1 degree every time cause I like that more
 
     def math(self):
         #y^2 + x^2 = r^2
@@ -44,8 +46,17 @@ class Circle():
             self.y = -(rr - x)**0.5 + self.originy
 
     def real_math(self): #Method I learned from youtube... holy this was so much faster...
-        speed = 6
-        self.angle += ((speed/180)*math.pi) #Changed it to increasing 1 degree every time cause I like that more
+    
+        if (self.angle >= math.pi and self.dir) or (self.angle <= 0 and not self.dir): #made it only spin half a circle
+            self.maths *= -1
+            self.dir = not self.dir
+        
+    
+        self.angle += self.maths
+        print(self.angle)
+        # print(math.degrees(self.angle))
+
+
         
         self.x = self.rr * math.cos(self.angle) + self.originx
         self.y = self.rr * math.sin(self.angle) + self.originy
@@ -55,6 +66,7 @@ class Circle():
         if (self.x >= self.originx + self.rr) or (self.x <= self.originx - self.rr):
             self.velx *= -1
             self.dir = not self.dir
+            print("gurt: yo")
 
         self.track += self.velx
         self.x += self.velx
