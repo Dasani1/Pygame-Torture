@@ -36,14 +36,14 @@ class Box:
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
 
     def draw(self):
-        pygame.draw.line(screen,WHITE,(self.originx,self.originy),(self.xpos+self._dimension/2,self.ypos+self._dimension/2))
+        pygame.draw.line(screen,WHITE,(self.originx+self._dimension/2,self.originy+self._dimension/2),(self.xpos+self._dimension/2,self.ypos+self._dimension/2))
         pygame.draw.rect(screen, RED, self.hitbox)
         
 
     def move(self):
-        self.angle += 0.1
-        print(round(self.angle,2))
-        
+        self.angle += ((1/180)*math.pi)
+   
+        # self.ypos += self.vely
         self.xpos = self.radius * math.cos(self.angle) + self.originx
         self.ypos = self.radius * math.sin(self.angle) + self.originy
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self._dimension,self._dimension)
@@ -54,13 +54,14 @@ class Box:
         
         
 
-    # def gravity(self): #I'll make it work like real gravity once I figure this x velocity out 
-    #     rope = (self.originx + self.radius)
-    #     if (self.xpos >= rope and self.direction) or (self.xpos <= self.originx-self.radius and not self.direction):
-    #         self.velx *= -1 
-    #         self.direction = not self.direction
-    #     self.track += (self.velx) 
-    #     self.track = round(self.track,2) #If you don't round it adds like 0.0000001 extra which adds up overtime to create mistakes
+    def gravity(self): 
+        rope = (self.originy + self.radius)
+        if (self.ypos >= rope and self.direction):
+            self.vely *= -1 
+            # self.direction = not self.direction
+        else:
+            self.vely += self.force
+
       
       
 
@@ -78,7 +79,7 @@ while running:
     # draw to the screen
     # YOUR CODE HERE
     # block.gravity()
-    block.energy()
+    #block.gravity()
     block.move()
 
     block.draw()
@@ -87,6 +88,6 @@ while running:
     pygame.display.flip()
      
     # how many updates per second
-    clock.tick(10)
+    clock.tick(60)
  
 pygame.quit()

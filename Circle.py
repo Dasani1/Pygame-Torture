@@ -46,6 +46,8 @@ class Circle():
             self.y = -(rr - x)**0.5 + self.originy
 
     def real_math(self): #Method I learned from youtube... holy this was so much faster...
+        # E = mgh + 1/2mv^2
+        
     
         if (self.angle >= math.pi and self.dir) or (self.angle <= 0 and not self.dir): #made it only spin half a circle
             self.maths *= -1

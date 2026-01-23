@@ -23,6 +23,8 @@ class Box:
     def __init__(self,x,y,speed1,speed2):
         self.speedx = speed1
         self.speedy = speed2
+        self.ogx = speed1
+        self.ogy = speed2
         self.xpos = x
         self.ypos = y
         self.size = 30
@@ -56,8 +58,14 @@ class Box:
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self.size,self.size)
     def setSpeedx(self):
         self.speedx *= -1
+        self.speedx +=  random.randint(-100,100)/100
+
+        print(self.speedx)
+
     def setSpeedy(self):
         self.speedy *= -1
+        self.speedy += random.randint(-100,100)/100
+        
     def setColour(self):
         colour = random.randint(0,5)
         if colour == colours.index(self.colour):

@@ -75,12 +75,12 @@ class Text:
 # clock is used to set a max fps
 clock = pygame.time.Clock()
 
-mass1 = 10
-speed1 = 10
+mass1 = 1
+speed1 = 0
 pos1 = 400
 col1 = RED
 
-mass2 = 10
+mass2 = 1
 speed2 = -10
 pos2 = 600
 col2 = WHITE
