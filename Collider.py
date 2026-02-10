@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -21,24 +22,38 @@ pygame.display.set_caption("pygame Test")
 class Box:
     def __init__(self,x,y,speed1,speed2,r):
         self.r = r
+        self.mass = 5
         self.speedx = speed1
         self.speedy = speed2
         self.xpos = x
         self.ypos = y
         self.pos = (self.xpos,self.ypos)
         self.colour = colours[random.randint(0,5)]
+        self.collide = False #Quick collision detector
     def draw(self):
         pygame.draw.circle(screen,self.colour,self.pos,self.r)
+        pygame.draw.line(screen,RED,(self.pos),(self.xpos+(self.speedx*10),self.ypos+(self.speedy*10)),5)
+    
     def move(self):
         self.xpos += self.speedx
         self.ypos += self.speedy
         self.pos = (self.xpos,self.ypos)
 
-        #Quick fix rq
-        if (self.xpos > screen_size[0]-25 and self.speedx > 0) or (self.xpos < 25 and self.speedx < 0):
+        #Quick temp collision
+        if (self.xpos > screen_size[0]-35 and self.speedx > 0) or (self.xpos < 35 and self.speedx < 0):
             self.speedx *= -1
-        if (self.ypos > screen_size[1]-25 and self.speedy > 0) or (self.ypos < 25 and self.speedy < 0):
+            self.collide = True
+        if (self.ypos > screen_size[1]-35 and self.speedy > 0) or (self.ypos < 35 and self.speedy < 0):
             self.speedy *= -1
+            self.collide = True
+
+    def arrow(self):
+        if self.collide:
+            mag = (self.speedx**2 + self.speedy**2)**0.5 #Magnitude of the speed
+ 
+        #Now to find direction...
+        self.collide = False
+
     def setSpeedx(self,speed):
         self.speedx *= speed
     def setSpeedy(self,speed):
@@ -50,6 +65,9 @@ class Box:
             else:
                 colour += 1
         self.colour = colours[colour]
+    def doAll(self):
+        self.move()
+        self.draw()
 
 
 
@@ -74,7 +92,9 @@ class Border:
 # clock is used to set a max fps
 clock = pygame.time.Clock()
 
-block1 = Box(random.randint(100,700),random.randint(100,500),random.randint(-3,6),random.randint(-3,6),25) #xy positions xy speeds and radius
+circle1 = Box(random.randint(100,700),random.randint(100,500),random.randint(3,6),random.randint(3,6),25) #xy positions xy speeds and radius
+circle2 = Box(random.randint(100,700),random.randint(100,500),random.randint(3,6),random.randint(3,6),25) #xy positions xy speeds and radius
+
 barrier = Border()
 running = True
 while running:
@@ -94,8 +114,8 @@ while running:
     #     block1.setColour(random.randint(0,5))
     #     block1.setSpeedx(-1)
 
-    block1.move()
-    block1.draw()
+    circle1.doAll()
+    circle2.doAll()
     barrier.draw()
 
 
