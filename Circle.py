@@ -27,8 +27,8 @@ class Circle():
         self.originy = (s/2)
         self.x = self.originx
         self.y = self.originy + 50
-        self.vely = 1
-        self.velx = 1
+        self.vely = 5
+        self.velx = 5
         self.track = 0
         self.dir = True
         self.angle = 0
@@ -64,6 +64,7 @@ class Circle():
 
 
 Round = Circle(20,100)
+unround = Circle (20,150)
  
 running = True
 while running:
@@ -73,10 +74,11 @@ while running:
      
     #clear the screen
     screen.fill(BLACK)
-
+    unround.math()
     Round.real_math()
- 
+    unround.move()
     Round.draw()
+    unround.draw()
  
     # flip() updates the screen to make our changes visible
     pygame.display.flip()
