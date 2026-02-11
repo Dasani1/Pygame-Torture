@@ -1,4 +1,5 @@
 import pygame
+import math
  
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -55,6 +56,15 @@ class Point:
             self.y = (smol/2) - (self.b*(smol/grid/2)) + diff/2
     def stay(self): #Ensuring it remembers its spot when moved
         pass
+
+    def matrix(self):
+        near = 0.1
+        far = 100
+        fov = 90
+        aspect = sized[0]/sized[1]
+        fovRad = 1/math.tan(fov * 0.5 * 180 / math.pi)
+
+        mat = [[0]*4]*4
     def getCoord(self): #Simple getter method
         return (self.x,self.y)
 
