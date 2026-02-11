@@ -50,21 +50,34 @@ class Box:
         if self.xpos < 0:
             self.score1 += 1
             self.xpos = screen_size[0]/2
+            self.setSpeedx()
             self.ypos = screen_size[1]/2
         elif self.xpos > screen_size[0]:
             self.score2 += 1
+            self.setSpeedx()
             self.xpos = screen_size[0]/2
             self.ypos = screen_size[1]/2
         self.hitbox = pygame.Rect(self.xpos,self.ypos,self.size,self.size)
     def setSpeedx(self):
         self.speedx *= -1
-        self.speedx +=  random.randint(-100,100)/100
+        self.speedx *=  random.randint(75,125)/100
 
+        if abs(self.speedx) >= self.ogx*2 or abs(self.speedx) <= self.ogx/2: #speed cap
+            if self.speedx >= 0:
+                self.speedx = self.ogx*-1
+            else:
+                self.speedx = self.ogx
         print(self.speedx)
 
     def setSpeedy(self):
         self.speedy *= -1
-        self.speedy += random.randint(-100,100)/100
+        self.speedy *= random.randint(75,125)/100
+
+        if abs(self.speedy) >= self.ogy*2 or abs(self.speedy) <= self.ogy/2: #speed cap
+            if self.speedy >= 0:
+                self.speedy = self.ogy*-1
+            else:
+                self.speedy = self.ogy
         
     def setColour(self):
         colour = random.randint(0,5)
@@ -120,9 +133,9 @@ class Paddle:
         if value == "n":
             self.speed = 0
         elif value:
-            self.speed = 5
+            self.speed = 8
         else:
-            self.speed = -5
+            self.speed = -8
         
     def move(self):
         
