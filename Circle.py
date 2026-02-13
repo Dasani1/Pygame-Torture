@@ -95,7 +95,6 @@ while running:
     bad.move()
     bad.draw()
     Round.draw()
-    unround.draw()
  
     # flip() updates the screen to make our changes visible
     pygame.display.flip()

@@ -53,11 +53,36 @@ class Box:
  
         #Now to find direction...
         self.collide = False
+    def collision(self,pos,speed):
+        x = pos[0]
+        y = pos[1]
+        sx = speed[0]
+        sy = speed[1]
+        self.speedx *= -1
+        self.speedy *= -1
+
+        return (sx,sy)*-1
+            
+        print("Collision Detected")
+
+    #Need to find a way to make it detect it's in the radius of the other object
+
+    def getSpeed(self):
+        return [self.speedx,self.speedy]
+    def getPos(self):
+        return [self.xpos,self.ypos]
+    def getRadius(self):
+        return self.r
 
     def setSpeedx(self,speed):
         self.speedx *= speed
     def setSpeedy(self,speed):
         self.speedy *= speed
+
+    def setSpeed(self,speed):
+        self.speedx = speed[0]
+        self.speedy = speed[1]
+
     def setColour(self,colour):
         if colour == colours.index(self.colour):
             if colour >= 5:
@@ -95,6 +120,7 @@ clock = pygame.time.Clock()
 circle1 = Box(random.randint(100,700),random.randint(100,500),random.randint(3,6),random.randint(3,6),25) #xy positions xy speeds and radius
 circle2 = Box(random.randint(100,700),random.randint(100,500),random.randint(3,6),random.randint(3,6),25) #xy positions xy speeds and radius
 
+circles = [circle1,circle2]
 barrier = Border()
 running = True
 while running:
@@ -107,15 +133,21 @@ while running:
      
     # draw to the screen
     # YOUR CODE HERE
-    # if barrier.collide(block1.getBox()) == "y":
-    #     block1.setSpeedy(-1)
-    #     block1.setColour(random.randint(0,5))
-    # elif barrier.collide(block1.getBox()) == "x":
-    #     block1.setColour(random.randint(0,5))
-    #     block1.setSpeedx(-1)
+   
+    #To detect a collision, do I have to use a nested loop? Is there anything more efficient
 
-    circle1.doAll()
-    circle2.doAll()
+    for hit in circles: #For every object created in the array, it will periodically check if something is hitting the other
+        for check in circles:
+            if (abs(hit.getPos()[0] - check.getPos()[0]) <= 50) and (abs(hit.getPos()[1] - check.getPos()[1]) <= 50):
+                if (abs(hit.getPos()[0] - check.getPos()[0]) != 0) and (abs(hit.getPos()[1] - check.getPos()[1]) != 0):
+                    #Second if statement is because first statement would check itself
+                    hit.collision(check.getPos(),check.getSpeed())
+      
+                    
+      
+
+    for circle in circles:
+        circle.doAll()
     barrier.draw()
 
 
